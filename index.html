@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SleekShop - Modern E-Commerce</title>
+    <meta name="description" content="Privacy-safe, frontend-only e-commerce demo." />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="container header-inner">
+            <a href="#" class="logo" onclick="showSection('home')">SleekShop</a>
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search products..." />
+            </div>
+            <div class="nav-icons">
+                <a href="#" onclick="event.stopPropagation(); showSection('wishlist')">
+                    <i class="fas fa-heart"></i><span class="badge" id="wishlist-count">0</span>
+                </a>
+                <a href="#" onclick="event.stopPropagation(); showSection('cart')">
+                    <i class="fas fa-shopping-cart"></i><span class="badge" id="cart-count">0</span>
+                </a>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">Menu</div>
+        </div>
+        <nav>
+            <ul id="nav-menu">
+                <li><a href="#" onclick="event.stopPropagation(); showSection('home')">Home</a></li>
+                <li><a href="#" onclick="event.stopPropagation(); showSection('shop')">Shop</a></li>
+                <li><a href="#" onclick="event.stopPropagation(); showSection('cart')">Cart</a></li>
+                <li><a href="#" onclick="event.stopPropagation(); showSection('wishlist')">Wishlist</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- HOME -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <h1>Discover Amazing Products</h1>
+                <p>Up to 50% off on selected items – Shop now!</p>
+                <button class="btn" onclick="showSection('shop')">Shop Now</button>
+            </div>
+            <div class="container">
+                <h2>Featured Products</h2>
+                <div class="products-grid" id="featured-products"></div>
+
+                <h2>Top Categories</h2>
+                <div class="categories">
+                    <div class="category-card" onclick="filterCategory('Electronics')">
+                        <img src="https://picsum.photos/seed/electronics/600/400" alt="Electronics" loading="lazy" />
+                        <div class="category-overlay">Electronics</div>
+                    </div>
+                    <div class="category-card" onclick="filterCategory('Clothing')">
+                        <img src="https://picsum.photos/seed/clothing/600/400" alt="Clothing" loading="lazy" />
+                        <div class="category-overlay">Clothing</div>
+                    </div>
+                    <div class="category-card" onclick="filterCategory('Home')">
+                        <img src="https://picsum.photos/seed/home/600/400" alt="Home" loading="lazy" />
+                        <div class="category-overlay">Home & Kitchen</div>
+                    </div>
+                </div>
+
+                <h2>What Our Customers Say</h2>
+                <div class="testimonials">
+                    <div class="testimonial fade-in">
+                        <p>"Best online shopping experience ever!"</p>
+                        <div class="stars">5 Stars</div>
+                        <p><strong>– Sarah K.</strong></p>
+                    </div>
+                    <div class="testimonial fade-in">
+                        <p>"Love the recommendations – spot on!"</p>
+                        <div class="stars">5 Stars</div>
+                        <p><strong>– Mike D.</strong></p>
+                    </div>
+                    <div class="testimonial fade-in">
+                        <p>"Fast, secure, and no tracking."</p>
+                        <div class="stars">4 Stars</div>
+                        <p><strong>– Lisa M.</strong></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SHOP -->
+        <section id="shop" class="section">
+            <div class="container">
+                <h2>All Products</h2>
+                <div class="filters">
+                    <select id="category-filter" onchange="applyFilters()">
+                        <option value="">All Categories</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Home">Home & Kitchen</option>
+                    </select>
+                </div>
+                <div class="products-grid" id="all-products"></div>
+            </div>
+        </section>
+
+        <!-- PRODUCT DETAIL -->
+        <section id="product-detail" class="section">
+            <div class="container">
+                <div class="product-detail-container">
+                    <div class="product-images">
+                        <img id="main-image" alt="Product" loading="lazy" />
+                    </div>
+                    <div class="product-info-detail">
+                        <h1 id="product-name"></h1>
+                        <p class="price" id="product-price"></p>
+                        <p class="description" id="product-description"></p>
+                        <div class="actions">
+                            <button class="btn" onclick="addToCart(currentProduct.id)">Add to Cart</button>
+                            <button class="btn btn-secondary" onclick="toggleWishlist(currentProduct.id)">Wishlist</button>
+                        </div>
+                        <div id="reviews"></div>
+                    </div>
+                </div>
+
+                <h2>Related Products</h2>
+                <div class="products-grid" id="related-products"></div>
+
+                <h2>Recently Viewed</h2>
+                <div class="products-grid" id="recently-viewed"></div>
+            </div>
+        </section>
+
+        <!-- CART -->
+        <section id="cart" class="section">
+            <div class="container">
+                <h2>Shopping Cart</h2>
+                <div id="cart-items"></div>
+                <p class="total">Total: $<span id="cart-total">0.00</span></p>
+                <button class="btn btn-success" onclick="showSection('checkout')">Proceed to Checkout</button>
+
+                <h2>Recommended for You</h2>
+                <div class="products-grid" id="recommended-products"></div>
+            </div>
+        </section>
+
+        <!-- CHECKOUT -->
+        <section id="checkout" class="section">
+            <div class="container">
+                <h2>Checkout</h2>
+                <form class="checkout-form" onsubmit="event.preventDefault(); completeCheckout()">
+                    <input type="text" placeholder="Full Name" required />
+                    <input type="email" placeholder="Email" required />
+                    <input type="text" placeholder="Address" required />
+                    <input type="text" placeholder="Card Number (demo)" />
+                    <button type="submit" class="btn btn-success">Complete Purchase</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- WISHLIST -->
+        <section id="wishlist" class="section">
+            <div class="container">
+                <h2>Your Wishlist</h2>
+                <div class="products-grid" id="wishlist-items"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Yaseen Siddiqui – Front-end responsive e-commerce website with privacy-preserving recommendations using HTML, CSS, and JavaScript.</p>
+        </div>
+    </footer>
+
+    <!-- JS -->
+    <script src="js/script.js"></script>
+</body>
+</html>
